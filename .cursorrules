@@ -1,0 +1,45 @@
+ 
+
+process_results.py: This script includes functions for processing results, such as extracting data from files and directories and creating polygons from the extracted data.
+
+dataset.py: This script contains functions for dataset construction containing B_n, T_n
+
+asp.py: This script is dedicated to the calculation of distances, implementation of the diameter gradient descent algorithm, data updating, and other related functions.
+
+Thanks!  Keep me posted.  The relevant text is at https://arxiv.org/abs/2301.13076 where on page 17 you will find some pseudocode.  MK
+
+
+Letter sent to me:
+
+```
+Seeing that you are interested in the latest AI miracles, I wanted to
+ask if you think this may facilitate developing code for certain
+extremal problems?  For example, I have been working with some
+colleagues on modeling the downward gradient flow for the diameter
+functional on the space of finite pointsets on the sphere, so as to
+locate its local extrema, which have interesting geometric properties.
+Is it plausible that one might get some help from AI here?
+
+Best, Mikhail Katz
+```
+
+
+Thanks for your message.  Arranging for a zoom will be almost
+impossible because of the time difference with Berkeley: when you
+work, I sleep; when I work, you sleep :-) The mathematical ideas here
+are extremely simple and can be illustrated in the case of the circle.
+Consider a finite subset Y of S^1.  To be precise, assume that Y
+contains no pair of antipodal points, i.e., its Riemannian diameter is
+strictly smaller than pi.  Now we try to perturb Y so as to decrease
+its diameter; that's what I refer to as the gradient flow for the
+diameter functional.  What happens is that Y will evolve into the set
+of vertices of an odd regular inscribed polygon; here typically some
+points of Y will coalesce in the process.
+
+Thus the diameter-extremal subsets of the circle are the (sets of
+vertices of the) odd regular polygons.
+
+A similar situation exists on the 2-sphere, where diameter-extremal
+subsets are more interesting than in the case of the circle.
+
+No, I don't.  The code was developed by Memoli's student Wang.  It seems to be pretty buggy.  Recently Wang admitted that sometimes the basic move increases the diameter (even though the code is supposed to be designed to decrease the diameter at every step).  I could ask Memoli whether I could get access to the code, but I am wondering whether it's worth it.  MK
