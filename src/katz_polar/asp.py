@@ -264,7 +264,7 @@ def evaluation(data, distance_matrix, proximity_threshold):
         raw_gradient, min_dot_product = get_minmax_vec_miniball(tangent_vectors, initial_vec, data[key])
         loss += max(0, min_dot_product)
     if loss == 0:
-        print('all points that reaches the diamter are been held with proximity threshold = ', proximity_threshold)
+        print('all points that reach the diameter have being held with proximity threshold = ', proximity_threshold)
     return loss
 
 
@@ -371,17 +371,23 @@ def binary_search_step_length(data, base_point_index: int, unit_gradient_directi
         iteration += 1
     return l
 
-def armijo_rule_step_length(data, base_point_index: int, unit_gradient_direction, step_length= 0.02) -> float:
-    init_diam = get_largest_distance_to_data(data, data[base_point_index])
+def armijo_rule_step_length(data, base_point_index: int, unit_gradient_direction, max_step_length=0.02) -> float:
+    init_diam = get_diam(get_distance_matrix(data))
     init_point = data[base_point_index]
-    r = step_length
-    for i in range(20):
-        # print('here')
-        r = r/2
-        new_point = (init_point + r*unit_gradient_direction)/np.linalg.norm(init_point + r*unit_gradient_direction)
-        new_diam = get_largest_distance_to_data(data, new_point)
-        if init_diam - new_diam > r*1e-3:
-            break
+    r = max_step_length
+    beta = 0.5  # Step length reduction factor
+    sigma = 1e-4  # Sufficient decrease parameter
+    for _ in range(20):
+        new_point = (init_point + r * unit_gradient_direction)
+        new_point /= np.linalg.norm(new_point)
+        data_candidate = data.copy()
+        data_candidate[base_point_index] = new_point
+        new_diam = get_diam(get_distance_matrix(data_candidate))
+        if new_diam <= init_diam - sigma * r:
+            break  # Sufficient decrease achieved
+        r *= beta  # Reduce step length
+    else:
+        r = 0.0  # No suitable step length found
     return r
 
 
